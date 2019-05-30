@@ -44,15 +44,9 @@ class Request
 		$response->setNavn($message[1])
 			->setFra($message[2])
 			->setTil($message[3]);
-		
+
 		if (isset($message[5]) && !empty($message[5])) {
-			$response->setBeskrivelse(
-				substr(
-					$message[5],
-					1,
-					strlen($message[5]) - 2
-				)
-			);
+			$response->setBeskrivelse($message[5]);
 		}
 
 		return $response;
