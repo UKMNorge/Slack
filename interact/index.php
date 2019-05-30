@@ -1,12 +1,11 @@
 <?php
 
-use UKM\Slack\KjopResponse;
+namespace UKMNorge\Slack\Interact;
 
-require_once('../trello.php');
-require_once('../slack/autoload.php');
+use UKMNorge\Slack\Kjop\Response;
+use UKMNorge\Trello\Trello;
 
-error_log( 'RETUR-DATA' );
-error_log( var_export( $_POST, true ) );
+require_once('../config.inc.php');
 
 $data = json_decode( $_POST['payload'] );
 
@@ -19,31 +18,31 @@ foreach( $data->actions as $action ) {
 }
 
 if( strpos( $selected_list, 'new-' ) === 0 ) {
-	$liste = trello::createList( str_replace('new-','',$selected_list) );
+	$liste = Trello::createList( str_replace('new-','',$selected_list) );
 	$selected_list = $liste->id;
 } else {
-	$liste = trello::getListById( $selected_list );
+	$liste = Trello::getListById( $selected_list );
 }
 
 $card_id = str_replace('kjop_fra_', '', $data->callback_id);
-trello::moveCard( $card_id, $selected_list );
+Trello::moveCard( $card_id, $selected_list );
 
-$response = new KjopResponse();
+$response = new Response();
 
 $message = $data->original_message;
 foreach( $message->attachments as $attachment ) {
 	foreach( $attachment->fields as $field ) {
 		switch( $field->title ) {
 	
-			case KjopResponse::labelAntall():
+			case Response::labelAntall():
 				$response->setAntall( $field->value );
 				break;
 	
-			case KjopResponse::labelTil():
+			case Response::labelTil():
 				$response->setTil( $field->value );
 				break;
 	
-			case KjopResponse::labelBeskrivelse():
+			case Response::labelBeskrivelse():
 				$response->setBeskrivelse( $field->value );
 				break;
 		}

@@ -2,9 +2,13 @@
 	
 namespace UKMNorge\Slack\Kjop;
 
-class Response extends Response {
+use UKMNorge\Slack\Attachment;
+use UKMNorge\Slack\Field;
+use UKMNorge\Slack\BuildJSON;
+use UKMNorge\Slack\Response as GenericResponse;
+
+class Response extends GenericResponse {
 	
-	var $antall = null;
 	var $navn = null;
 	var $til = null;
 	var $fra = null;
@@ -17,9 +21,6 @@ class Response extends Response {
 		$this->addAttachment( $attachment );
 	}
 	
-	public static function labelAntall() {
-		return 'Antall';
-	}
 	public static function labelTil() {
 		return 'Leveres til';
 	}
@@ -32,13 +33,6 @@ class Response extends Response {
 	
 	private function _preRender() {
 		$attachment = $this->getAttachment('kjop');
-		$attachment->addField(
-			new Field(
-				'antall',
-				self::labelAntall(),
-				$this->getAntall()
-			)
-		);
 		
 		$attachment->addfield(
 			new Field(
@@ -81,14 +75,6 @@ class Response extends Response {
 		$this->_preRender();
 		
 		return BuildJSON::response( $this );
-	}
-	
-	public function setAntall( $antall ) {
-		$this->antall = $antall;
-		return $this;
-	}
-	public function getAntall() {
-		return $this->antall;
 	}
 	
 	public function setNavn( $navn ) {
