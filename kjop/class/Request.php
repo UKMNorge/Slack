@@ -5,9 +5,12 @@ namespace UKMNorge\Slack\Kjop;
 
 use UKMNorge\Slack\Option;
 use UKMNorge\Slack\OptionGroup;
+use UKMNorge\Slack\SelectAction;
 use UKMNorge\Slack\API\Users;
 
 use UKMNorge\Trello\Trello;
+
+use Exception;
 
 class Request
 {
@@ -31,7 +34,7 @@ class Request
 		preg_match($preg, $_POST['text'], $message);
 
 		if (sizeof($message) == 0) {
-			throw new \Exception(
+			throw new Exception(
 				'Ikke gyldig meldingsformat',
 				181001
 			);
