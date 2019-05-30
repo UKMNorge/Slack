@@ -32,12 +32,7 @@ $response = new Response();
 $message = $data->original_message;
 foreach( $message->attachments as $attachment ) {
 	foreach( $attachment->fields as $field ) {
-		switch( $field->title ) {
-	
-			case Response::labelAntall():
-				$response->setAntall( $field->value );
-				break;
-	
+		switch( $field->title ) {	
 			case Response::labelTil():
 				$response->setTil( $field->value );
 				break;
