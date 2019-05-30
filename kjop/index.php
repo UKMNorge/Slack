@@ -2,7 +2,6 @@
 
 namespace UKMNorge\Slack\Kjop;
 
-use UKMNorge\Slack\Kjop\Request;
 use UKMNorge\Slack\Response as GenericResponse;
 use UKMNorge\Trello\Trello;
 
@@ -28,7 +27,7 @@ try {
 try {
 	Request::findList($response);
 } catch (Exception $e) {
-	Request::addListAlternatives($response);
+	Request::showListAlternatives($response);
 }
 
 // FETCH SLACK USER DATA
