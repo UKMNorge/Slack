@@ -2,6 +2,7 @@
 
 namespace UKMNorge\Slack\Kjop;
 
+use UKMNorge\Slack\Kjop\Request;
 use UKMNorge\Slack\Response as GenericResponse;
 use UKMNorge\Trello\Trello;
 
