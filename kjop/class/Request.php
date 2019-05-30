@@ -29,7 +29,7 @@ class Request
 		 * MAP VERDIER FRA STRING TIL VARIABLER
 		 **/
 		#$preg = "/(([0-9]+)([\wæøåÆØÅ]+\b) )?([\d\wæøåÆØÅ ]*) fra ([\d\wæøåÆØÅ]*) til ([\d\wæøåÆØÅ]*)\s?(\<.*\>)?/";
-		$preg = "/([0-9\wæøåÆØÅ -_]+) fra ([\d\wæøåÆØÅ -_]+) til ([\d\wæøåÆØÅ -_]+)\s?(\<.*\>)?/";
+		$preg = "/([0-9\wæøåÆØÅ -_]+) fra ([\d\wæøåÆØÅ -]+) til ([\d\wæøåÆØÅ -]+)(\<(.*)\>)?/";
 		$message = [];
 		preg_match($preg, $_POST['text'], $message);
 
@@ -44,12 +44,13 @@ class Request
 		$response->setNavn($message[1])
 			->setFra($message[2])
 			->setTil($message[3]);
-		if (isset($message[4]) && !empty($message[4])) {
+		
+		if (isset($message[5]) && !empty($message[5])) {
 			$response->setBeskrivelse(
 				substr(
-					$message[4],
+					$message[5],
 					1,
-					strlen($message[4]) - 2
+					strlen($message[5]) - 2
 				)
 			);
 		}
