@@ -3,10 +3,12 @@
 namespace UKMNorge\Slack\Kjop;
 
 use UKMNorge\Slack\Response;
+use UKMNorge\Slack\API\API;
 use \Exception;
 use SQLins;
 use SQL;
 
+require_once('UKM/Slack/autoload.php');
 require_once('UKM/sql.class.php');
 
 class APP
@@ -44,9 +46,9 @@ class APP
 				'team' => $team_id
 			]
 			);
-		$res = $sql->run('field', 'access_token');
+		$token = $sql->run('field', 'access_token');
 
-		if( !$res ) {
+		if( !$token ) {
 			$response = new Response(
 				'ephemeral',
 				':sob: Beklager, kan ikke se at teamet ditt er godkjent for bruk av denne appen. Kontakt support@ukm.no'
@@ -54,8 +56,8 @@ class APP
 			$response->renderAndDie();
 		}
 		
-		define('SLACK_ACCESS_TOKEN', $res);
-
+		define('SLACK_ACCESS_TOKEN', $token);
+		API::setToken( $token );
 		return true;
 	}
 
