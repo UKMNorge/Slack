@@ -20,5 +20,5 @@ Trello::setId(
 );
 Trello::setBoardId(TRELLO_BOARD_INNKJOP);
 
-// INIT SLACK
-API::init(SLACK_ACCESS_TOKEN);
+
+API::init();
