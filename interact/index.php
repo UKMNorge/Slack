@@ -8,9 +8,8 @@ use UKMNorge\Trello\Trello;
 
 require_once('../config.inc.php');
 
-APP::setAPITokenFromTeamId( $_POST['team_id'] );
-
 $data = json_decode( $_POST['payload'] );
+APP::setAPITokenFromTeamId( $data->team->id );
 
 $selected = 'Ukjent butikk';
 foreach( $data->actions as $action ) {
