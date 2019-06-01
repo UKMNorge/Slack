@@ -3,11 +3,13 @@
 namespace UKMNorge\Slack\Kjop;
 
 use UKMNorge\Slack\Response as GenericResponse;
+use UKMNorge\Slack\Kjop\APP;
 use UKMNorge\Trello\Trello;
-
 use \Exception;
 
 require_once('../config.inc.php');
+
+APP::setAPITokenFromTeamId( $_POST['team_id'] );
 
 // INIT REQUEST
 try {

@@ -3,9 +3,12 @@
 namespace UKMNorge\Slack\Interact;
 
 use UKMNorge\Slack\Kjop\Response;
+use UKMNorge\Slack\Kjop\APP;
 use UKMNorge\Trello\Trello;
 
 require_once('../config.inc.php');
+
+APP::setAPITokenFromTeamId( $_POST['team_id'] );
 
 $data = json_decode( $_POST['payload'] );
 
