@@ -33,7 +33,7 @@ class APP
 		}
 	}
 
-	public static function setAPITokenFromTeamId( int $team_id)
+	public static function setAPITokenFromTeamId($team_id)
 	{
 		$sql = new SQL("SELECT `access_token`
 			FROM `#table`
