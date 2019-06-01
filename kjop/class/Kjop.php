@@ -15,7 +15,7 @@ class APP
 					'TRELLO_APP_KEY',
 					'TRELLO_APP_TOKEN',
 					'TRELLO_BOARD_INNKJOP',
-					'SLACK_ACCESS_TOKEN'
+					'SLACK_CLIENT_ID'
 				]
 			);
 		} catch( Exception $e ) {
