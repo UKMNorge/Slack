@@ -55,8 +55,6 @@ class APP
 			);
 			$response->renderAndDie();
 		}
-		
-		define('SLACK_ACCESS_TOKEN', $token);
 		API::setToken( $token );
 		return true;
 	}
