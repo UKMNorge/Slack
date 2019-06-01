@@ -4,6 +4,9 @@ namespace UKMNorge\Slack\Kjop;
 
 use UKMNorge\Slack\Response;
 use \Exception;
+use SQLins;
+
+require_once('UKM/sql.class.php');
 
 class APP
 {

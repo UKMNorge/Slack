@@ -7,7 +7,6 @@ use UKMNorge\Slack\Kjop\APP;
 use Exception;
 
 require_once('../config.inc.php');
-require_once('UKM/sql.class.php');
 
 // IF WE GOT A CODE, TRY AUTH
 if( isset( $_GET['code'] ) ) {
