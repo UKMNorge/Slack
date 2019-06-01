@@ -12,7 +12,8 @@ require_once('../config.inc.php');
 if( isset( $_GET['code'] ) ) {
 	try {
 		$approval = OAuth::access( $_GET['code'] );
-		APP::storeAPIAccessToken($approval);
+		$store = APP::storeAPIAccessToken($approval);
+		die('Suksess!');
 	} catch( Exception $e ) {
 		echo '<h1>Beklager!</h1>'. $e->getMessage();
 	}
