@@ -1,60 +1,57 @@
 <?php
 
-namespace UKMNorge\Slack\Interact;
+namespace UKMNorge\SlackApp;
 
-use UKMNorge\Slack\Kjop\Response;
-use UKMNorge\Slack\Kjop\APP;
-use UKMNorge\Trello\Trello;
+use UKMNorge\Slack\API\Response\Interaction;
+use UKMNorge\Slack\API\Response\Plugin\FileManager;
 
-require_once('../config.inc.php');
-
-$data = json_decode( $_POST['payload'] );
-APP::setAPITokenFromTeamId( $data->team->id );
-
-$selected = 'Ukjent butikk';
-foreach( $data->actions as $action ) {
-	if( $action->name == 'fra' ) {
-		$selected_list = $action->selected_options[0]->value;
-		break;
-	}
+$time_start = microtime(true); 
+function logTime($text) {
+    global $time_start;
+    error_log('TIMER: '. $text .' ('. ((microtime(true) - $time_start)) .')');
 }
 
-if( strpos( $selected_list, 'new-' ) === 0 ) {
-	$liste = Trello::createList( str_replace('new-','',$selected_list) );
-	$selected_list = $liste->id;
+function closeConnection($content_size) {
+    logTime('FLUSH AND CLOSE');
+    header("Content-Length: $content_size");
+    ob_end_flush(); // Strange behaviour, will not work
+    flush();            // Unless both are called !
+    fastcgi_finish_request(); // important when using php-fpm!
+}
+
+header("Connection: close");
+ob_start(); 
+ignore_user_abort(true);
+logTime('OB START');
+
+require_once('../env.inc.php');
+ini_set('display_errors', false);
+
+$filemanager = new FileManager( dirname(__DIR__).'/Plugins/');
+$interaction = new Interaction(file_get_contents('php://input'));
+$filemanager->registerPluginFilters($interaction);
+
+logTime('## Plugins loaded');
+
+// Process and output response
+logTime('PROCESS START');
+$interaction->process();
+logTime('OUTPUT START');
+$interaction->output();
+logTime('OUTPUT END');
+
+$content_size = ob_get_length();
+
+// Trigger async requests now that we've answered slack (output)
+if( $interaction->hasUnprocessedAsyncFilters() ) {
+    closeConnection($content_size);
+    
+    logTime('OB END');
+    logTime('ASYNC START');
+    $interaction->processAsync();
+    logTime('ASYNC END');
 } else {
-	$liste = Trello::getListById( $selected_list );
+    closeConnection($content_size);
 }
-
-$card_id = str_replace('kjop_fra_', '', $data->callback_id);
-Trello::moveCard( $card_id, $selected_list );
-
-$response = new Response();
-
-$message = $data->original_message;
-foreach( $message->attachments as $attachment ) {
-	foreach( $attachment->fields as $field ) {
-		switch( $field->title ) {	
-			case Response::labelTil():
-				$response->setTil( $field->value );
-				break;
-	
-			case Response::labelBeskrivelse():
-				$response->setBeskrivelse( $field->value );
-				break;
-		}
-	}
-	
-	$response->setText('Thanks! '. $attachment->fallback .' er lagt til på '. $liste->name .'-listen.');
-	$response->setNavn( $attachment->fallback );
-	$response->setFra( $liste->name );
-}
-
-/**
- * OUTPUT STUFF
-**/
-header('Content-Type: application/json');
-echo $response->renderToJSON();
-
-
-echo 'Flytt '. $card_id .' til '. $selected;
+logTime('SCRIPT END');
+die(); // probably smart since the request is ended?
