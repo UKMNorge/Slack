@@ -20,21 +20,84 @@ App::getBotTokenFromTeamId(SLACK_UKMNORGE_TEAM_ID);
 $channel = Channels::getByName(SLACK_UKMNORGE_TEAM_ID, '#test');
 
 // Handlebars for oss på kontoret
-$users = [
-    '@mariusmandal',
-    '@jardar',
-    '@stine',
-    '@tom.andreas.kristense',
-    '@torstein',
-    '@kimd9740',
-    '@kushtrimaliu',
-    '@camilla.tangen'
-];
+// function getUserList(){
+//     $userList = [
+//         '@mariusmandal',
+//         '@jardar',
+//         '@stine',
+//         '@tom.andreas.kristense',
+//         '@torstein',
+//         '@kimd9740',
+//         '@kushtrimaliu',
+//         '@camilla.tangen'
+//     ];
 
-$user = Users::getByHandlebar(SLACK_UKMNORGE_TEAM_ID, '@mariusmandal');
+//     return $userList;
+// }
 
-$header = 'Her kommer en test-melding til deg  '.
-    '<@'. $user->getSlackId() .'>! 🎉 ';
+function getUserList(){
+    $userList = [
+        'mariusmandal',
+        'jardar',
+        'stine',
+        'tom.andreas.kristense',
+        'torstein',
+        'kimd9740',
+        'kushtrimaliu',
+        'camilla.tangen'
+    ];
+
+    return $userList;
+}
+$users = getUserList();
+
+function getRandomNumber($users){return rand(0, count($users)-1);}
+
+function shuffleList($users){
+    $randomUserList = [];
+    
+    while(count($users) > 0) {
+        $randomNumber = getRandomNumber($users);
+        $randomizeArray = array_splice($users,$randomNumber,1);
+        $randomUser = $randomizeArray[0];
+        array_push($randomUserList,$randomUser);
+    }
+
+    return $randomUserList;
+}
+
+function generatePairs($users){
+    $pairs = [];
+
+    while(count($users) > 0) {
+        $randomPair = array_splice($users,0,2);
+        array_push($pairs,$randomPair);
+    }
+
+    return $pairs;
+}
+
+$randomList = shuffleList($users);
+$finalPairs = generatePairs($randomList);
+
+function printList($finalPairs) {
+    $rouletteListe = '';
+    $keys = array_keys($finalPairs);
+    for($i = 0; $i < count($finalPairs); $i++) {
+        $rouletteListe .= ' • ';
+        foreach( $finalPairs[$keys[$i]] as $user ) {
+            $rouletteListe .= $user . ' ';
+        }
+        $rouletteListe .= '\n';
+    }
+    return $rouletteListe;
+}
+
+$rouletteListe = printList($finalPairs);
+
+$user = Users::getByHandlebar(SLACK_UKMNORGE_TEAM_ID, '@kimd9740');
+
+$header = '*Klar for ny runde med roulette? Her er dagens partnere 👫:*';
 
 // Opprett meldingsobjektet
 // Teksten du legger til først, er teksten som vises i notifications 
@@ -49,6 +112,15 @@ $message->getBlocks()->add(
     new Section(
         new Markdown(
             $header
+        )
+    )
+);
+
+// Legg til listen som markdown
+$message->getBlocks()->add(
+    new Section(
+        new Markdown(
+            $rouletteListe
         )
     )
 );
