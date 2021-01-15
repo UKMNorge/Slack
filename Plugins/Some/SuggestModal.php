@@ -163,8 +163,8 @@ class SuggestModal extends Trigger {
         
         $select = new Select(
             'wayforward_user',
-            $userOptions,
-            new PlainText('Velg bruker')
+            new PlainText('Velg bruker'),
+            $userOptions
         );
         $select->setInitialOption(
             new Option(
