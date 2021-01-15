@@ -30,7 +30,8 @@ class RouletteInit extends Trigger {
         App::getBotTokenFromTeamId( $transport->getTeamId() );
         
         $view = new View($transport->getData()->trigger_id, $this->getTemplate($transport));
-        $result = $view->open();
+        // Sender kommandoen til slack-api
+        $result = $view->open(); 
 
         // Return response for possibel later modification
         return $transport;
@@ -56,7 +57,7 @@ class RouletteInit extends Trigger {
         );
         $blocks[] = $intro;
 
-        // Velg mennesker
+        /*// Velg mennesker
         $blocks[] = new MultiSelectUsers(
             'zoom_roulette_users',
             new PlainText('Brukere:')
@@ -67,7 +68,7 @@ class RouletteInit extends Trigger {
             'zoom_roulette_channel',
             new PlainText('Kanal:')
         );
-        
+        */
         // Legg til alle blocks
         $view->getBlocks()->set($blocks);
         
