@@ -14,7 +14,7 @@ use UKMNorge\Slack\Payload\Modal;
 /**
  * Konverter data fra SuggestModal til en Some-idé
  */
-class SuggestModalSubmit extends ViewSubmission {
+class RouletteStart extends ViewSubmission {
     const ASYNC = false;
 
     /**

@@ -16,11 +16,12 @@ use UKMNorge\Slack\Payload\Modal;
 /**
  * Åpne modal for sosiale medier-status
 */
-class ZoomRouletteInit extends Trigger {
+class RouletteInit extends Trigger {
     const ASYNC = true;
 
     // SJEKK AT CALLBACK-ID GJELDER DENNE TRIGGEREN
     public function condition( TransportInterface $transport ) {
+        error_log('COND: '. $transport->getData()->callback_id .' == zoom_roulette_init');
         return $transport->getData()->callback_id == 'zoom_roulette_init';
     }
 
