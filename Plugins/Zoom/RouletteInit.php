@@ -57,18 +57,19 @@ class RouletteInit extends Trigger {
         );
         $blocks[] = $intro;
 
-        /*// Velg mennesker
+        /*
+        // Velg mennesker
         $blocks[] = new MultiSelectUsers(
             'zoom_roulette_users',
             new PlainText('Brukere:')
         );
-
+        */
         // Velg kanal
         $blocks[] = new SelectConversations(
             'zoom_roulette_channel',
             new PlainText('Kanal:')
         );
-        */
+        
         // Legg til alle blocks
         $view->getBlocks()->set($blocks);
         
