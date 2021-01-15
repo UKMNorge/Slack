@@ -15,65 +15,79 @@ use UKMNorge\Slack\Payload\Modal;
 
 /**
  * Åpne modal for sosiale medier-status
-*/
-class RouletteInit extends Trigger {
+ */
+class RouletteInit extends Trigger
+{
     const ASYNC = true;
 
     // SJEKK AT CALLBACK-ID GJELDER DENNE TRIGGEREN
-    public function condition( TransportInterface $transport ) {
-        error_log('COND: '. $transport->getData()->callback_id .' == zoom_roulette_init');
+    public function condition(TransportInterface $transport)
+    {
+        error_log('COND: ' . $transport->getData()->callback_id . ' == zoom_roulette_init');
         return $transport->getData()->callback_id == 'zoom_roulette_init';
     }
 
     // BEHANDLE FORESPØRSELEN (HVIS condition() returnerer true)
-    public function process( TransportInterface $transport ) {
-        App::getBotTokenFromTeamId( $transport->getTeamId() );
-        
+    public function process(TransportInterface $transport)
+    {
+        App::getBotTokenFromTeamId($transport->getTeamId());
+
         $view = new View($transport->getData()->trigger_id, $this->getTemplate($transport));
         // Sender kommandoen til slack-api
-        $result = $view->open(); 
+        $result = $view->open();
 
         // Return response for possibel later modification
         return $transport;
     }
 
     // SETT OPP MODAL-TEMPLATE
-    public function getTemplate( TransportInterface $transport) {
+    public function getTemplate(TransportInterface $transport)
+    {
         // VIEW
         $view = new Modal(new PlainText('Zoom-roulette'));
         $view
-            ->setSubmit( new PlainText('Start'))
-            ->setClose( new PlainText('Avbryt'))
+            ->setSubmit(new PlainText('Start'))
+            ->setClose(new PlainText('Avbryt'))
             ->setCallbackId('zoom_roulette_start');
-        
-        // Liste med blocks
-        $blocks = [];
 
         // Introduksjon
-        $intro = new Section( 
+        $intro = new Section(
             new Markdown(
                 '*Hyggelig tekst*'
             )
         );
-        $blocks[] = $intro;
 
         // Velg mennesker
-        $blocks[] = new MultiSelectUsers(
-            'zoom_roulette_users',
+        $mennesker = new Section(
             new PlainText('Brukere:')
         );
+        $mennesker->setAccessory(
+            new MultiSelectUsers(
+                'zoom_roulette_users',
+                new PlainText('Brukere:')
+            )
+        );
 
-        /*
         // Velg kanal
-        $blocks[] = new SelectConversations(
-            'zoom_roulette_channel',
+        $kanal = new Section(
             new PlainText('Kanal:')
         );
-        */
-        
+        $kanal->setAccessory(
+            new SelectConversations(
+                'zoom_roulette_channel',
+                new PlainText('Kanal:')
+            )
+        );
+
         // Legg til alle blocks
-        $view->getBlocks()->set($blocks);
-        
+        $view->getBlocks()->set(
+            [
+                $intro,
+                $mennesker,
+                $kanal
+            ]
+        );
+
         return $view->export();
     }
 }
