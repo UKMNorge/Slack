@@ -9,6 +9,7 @@ use UKMNorge\Slack\API\Response\Plugin\Transport\TransportInterface;
 use UKMNorge\Slack\Block\Composition\PlainText;
 use UKMNorge\Slack\Block\Composition\Markdown;
 use UKMNorge\Slack\Block\Section;
+use UKMNorge\Slack\Cache\Channel\Channels;
 use UKMNorge\Slack\Payload\Modal;
 
 /**
@@ -68,7 +69,7 @@ class RouletteStart extends ViewSubmission {
         $view = new Modal(new PlainText('Jippi'));
         $view
             ->setClose( new PlainText('OK'))
-            ->setCallbackId('modal_some_suggest_summary');
+            ->setCallbackId('zoom_roulette_close');
 
         $blocks = [];
 
@@ -99,9 +100,11 @@ class RouletteStart extends ViewSubmission {
     public function sendListToChannel( TransportInterface $transport ) {
         $submitdata = $transport->getView()->collectSubmittedData();
         
-        $kanal = $submitdata['zoom_roulette_channel'];
-        $users = $submitdata['zoom_roulette_users'];
-
+        $team_id = $transport->getTeamId();
+        $kanal_id = $submitdata['zoom_roulette_channel'];
+        $user_ids = $submitdata['zoom_roulette_users'];
+        
+        $kanal = Channels::getBySlackId($team_id, $kanal_id);
         // SEND TO CHANNEL
 
         return $transport;
