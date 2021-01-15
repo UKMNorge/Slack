@@ -4,7 +4,6 @@ namespace UKMNorge\SlackApp;
 
 use UKMNorge\Slack\API\Response\Plugin\Transport\TransportInterface;
 use UKMNorge\Slack\App\UKMApp as App;
-use UKMNorge\Slack\Block\Composition\Markdown;
 use UKMNorge\Slack\Block\Composition\PlainText;
 use UKMNorge\Slack\Block\Composition\Text;
 use UKMNorge\Slack\Block\Composition\Option;
@@ -74,8 +73,8 @@ class Some {
         $selectUsers->setAccessory(
             new Select(
                 $id,
-                $userOptions,
-                new PlainText('Velg bruker')
+                new PlainText('Velg bruker'),
+                $userOptions
             )
         );
         return $selectUsers;

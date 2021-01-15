@@ -8,16 +8,12 @@ use UKMNorge\Slack\API\Response\Plugin\Filter\Trigger;
 use UKMNorge\Slack\API\Response\Plugin\Transport\TransportInterface;
 use UKMNorge\Slack\Block\Composition\PlainText;
 use UKMNorge\Slack\Block\Composition\Markdown;
-use UKMNorge\Slack\Block\Composition\Option;
 use UKMNorge\Slack\Block\Context;
-use UKMNorge\Slack\Block\Divider;
 use UKMNorge\Slack\Block\Input;
 use UKMNorge\Slack\Block\Element\Input as InputElement;
 use UKMNorge\Slack\Block\Element\Datepicker;
-use UKMNorge\Slack\Block\Element\Select;
 use UKMNorge\Slack\Block\Section;
 use UKMNorge\Slack\Payload\Modal;
-use UKMNorge\Slack\Payload\PayloadInterface;
 
 use UKMNorge\SlackApp\Some;
 
