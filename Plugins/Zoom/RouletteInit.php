@@ -59,7 +59,6 @@ class RouletteInit extends Trigger {
         // Velg mennesker
         $blocks[] = new MultiSelectUsers(
             'zoom_roulette_users',
-            [],
             new PlainText('Brukere:')
         );
 
