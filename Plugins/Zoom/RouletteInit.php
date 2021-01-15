@@ -3,9 +3,9 @@
 namespace SlackPlugin\Zoom;
 
 use UKMNorge\Slack\App\UKMApp as App;
-use UKMNorge\Slack\API\View;
 use UKMNorge\Slack\API\Response\Plugin\Filter\Trigger;
 use UKMNorge\Slack\API\Response\Plugin\Transport\TransportInterface;
+use UKMNorge\Slack\API\View;
 use UKMNorge\Slack\Block\Composition\PlainText;
 use UKMNorge\Slack\Block\Composition\Markdown;
 use UKMNorge\Slack\Block\Element\MultiSelectUsers;
