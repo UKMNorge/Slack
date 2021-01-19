@@ -151,18 +151,17 @@ class RouletteStart extends ViewSubmission {
             new Divider()
         );
 
-        // Send meldingen
-        // $result = App::botPost('chat.postMessage', (array) $message->export());
-            
+        // Send meldingen        
         return App::botPost('chat.postMessage', (array) $message->export());
     
     }
 
     function generatePairs($users){
         $pairs = [];
-
+        error_log("161:" . var_export($users, true));
         while(count($users) > 0) {
             $randomPair = (count($users) % 2 != 0) ? array_splice($users,0,3) : array_splice($users,0,2);
+            error_log("164:" . var_export($users, true));
             array_push($pairs,$randomPair);
         }
 
