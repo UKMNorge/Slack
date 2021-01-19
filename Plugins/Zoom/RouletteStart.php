@@ -113,8 +113,8 @@ class RouletteStart extends ViewSubmission {
 
         App::getBotTokenFromTeamId($team_id);
 
-        $randomList = $this->shuffleList($user_ids);
-        $finalPairs = $this->generatePairs($randomList);
+        shuffle($user_ids);
+        $finalPairs = $this->generatePairs($user_ids);
         $rouletteListe = $this->printList($finalPairs);
 
         $header = 'Klar for ny runde med zoom-roulette? 👫: \n\n *Her er gruppene:*';
@@ -156,21 +156,6 @@ class RouletteStart extends ViewSubmission {
             
         return App::botPost('chat.postMessage', (array) $message->export());
     
-    }
-
-    function getRandomNumber($users){return rand(0, count($users)-1);}
-
-    function shuffleList($users){
-        $randomUserList = [];
-        
-        while(count($users) > 0) {
-            $randomNumber = $this->getRandomNumber($users);
-            $randomizeArray = array_splice($users,$randomNumber,1);
-            $randomUser = $randomizeArray[0];
-            array_push($randomUserList,$randomUser);
-        }
-
-        return $randomUserList;
     }
 
     function generatePairs($users){
