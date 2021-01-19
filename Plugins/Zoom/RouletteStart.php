@@ -78,6 +78,7 @@ class RouletteStart extends ViewSubmission {
 
         $blocks = [];
 
+        
         // Introduksjon
         $blocks[] = new Section( 
             new Markdown(
