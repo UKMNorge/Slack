@@ -71,7 +71,7 @@ class RouletteStart extends ViewSubmission {
         $users = $submitdata['zoom_roulette_users'];
 
         // Opprett view (nytt innhold i modal)
-        $view = new Modal(new PlainText('Jippi'));
+        $view = new Modal(new PlainText('Da er vi i gang!'));
         $view
             ->setClose( new PlainText('OK'))
             ->setCallbackId('zoom_roulette_close');
@@ -82,16 +82,16 @@ class RouletteStart extends ViewSubmission {
         // Introduksjon
         $blocks[] = new Section( 
             new Markdown(
-                'Listen er sendt til '. $kanal .''
+                'Listen over gruppene er sendt i kanalen: '. $kanal .''
             )
         );
 
-        // Debug brukere
-        $blocks[] = new Section(
-            new Markdown(
-                var_export($users, true)
-            )
-        );
+        // // Debug brukere
+        // $blocks[] = new Section(
+        //     new Markdown(
+        //         var_export($users, true)
+        //     )
+        // );
 
         // Legg til alle blocks
         $view->getBlocks()->set($blocks);

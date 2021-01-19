@@ -53,29 +53,29 @@ class RouletteInit extends Trigger
         // Introduksjon
         $intro = new Section(
             new Markdown(
-                '*Hyggelig tekst*'
+                '*Legg til deltakere og kanal for å starte en zoom-roulette*'
             )
         );
 
         // Velg mennesker
         $mennesker = new Section(
-            new PlainText('Velg brukere:')
+            new PlainText('Deltakere:')
         );
         $mennesker->setAccessory(
             new MultiSelectUsers(
                 'zoom_roulette_users',
-                new PlainText('Brukere')
+                new PlainText('Hvem skal være med?')
             )
         );
 
         // Velg kanal
         $kanal = new Section(
-            new PlainText('Velg kanal:')
+            new PlainText('Kanal:')
         );
         $kanal->setAccessory(
             new SelectConversations(
                 'zoom_roulette_channel',
-                new PlainText('Kanal')
+                new PlainText('Hvor skal lista sendes til?')
             )
         );
 
