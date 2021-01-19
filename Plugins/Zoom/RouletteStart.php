@@ -49,6 +49,7 @@ class RouletteStart extends ViewSubmission {
         $data = new stdClass();
         // Modalen som sendte inn denne forespørselen skal oppdateres
         $data->response_action = 'update';
+        $this->sendListToChannel($transport);
         // Sett nytt innhold
         $data->view = $this->getSuccessTemplate( $transport );
         $transport->setResponse($data);

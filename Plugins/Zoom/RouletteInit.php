@@ -59,23 +59,23 @@ class RouletteInit extends Trigger
 
         // Velg mennesker
         $mennesker = new Section(
-            new PlainText('Brukere:')
+            new PlainText('Velg brukere:')
         );
         $mennesker->setAccessory(
             new MultiSelectUsers(
                 'zoom_roulette_users',
-                new PlainText('Brukere:')
+                new PlainText('Brukere')
             )
         );
 
         // Velg kanal
         $kanal = new Section(
-            new PlainText('Kanal:')
+            new PlainText('Velg kanal:')
         );
         $kanal->setAccessory(
             new SelectConversations(
                 'zoom_roulette_channel',
-                new PlainText('Kanal:')
+                new PlainText('Kanal')
             )
         );
 
