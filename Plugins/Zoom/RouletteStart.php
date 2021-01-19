@@ -67,7 +67,8 @@ class RouletteStart extends ViewSubmission {
     public function getSuccessTemplate( TransportInterface $transport ) {
         $submitdata = $transport->getView()->collectSubmittedData();
 
-        $kanal = $submitdata['zoom_roulette_channel'];
+        $kanal = $submitdata['zoom_roulette_channel']->getValue();
+        $kanal = "<#" . $kanal . ">";
         $users = $submitdata['zoom_roulette_users'];
 
         // Opprett view (nytt innhold i modal)
@@ -147,10 +148,6 @@ class RouletteStart extends ViewSubmission {
                     $rouletteListe
                 )
             )
-        );
-
-        $message->getBlocks()->add(
-            new Divider()
         );
 
         // Send meldingen        
