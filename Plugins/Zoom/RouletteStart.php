@@ -106,8 +106,8 @@ class RouletteStart extends ViewSubmission {
         $submitdata = $transport->getView()->collectSubmittedData();
         
         $team_id = $transport->getTeamId();
-        $kanal_id = $submitdata['zoom_roulette_channel'];
-        $user_ids = $submitdata['zoom_roulette_users'];
+        $kanal_id = $submitdata['zoom_roulette_channel']->getValue();
+        $user_ids = $submitdata['zoom_roulette_users']->getValue();
         
         $kanal = Channels::getBySlackId($team_id, $kanal_id);
 
