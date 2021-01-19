@@ -3,44 +3,35 @@
 ini_set('display_errors',true);
 
 use UKMNorge\Slack\App\UKMApp as App;
+use UKMNorge\Slack\Plugins\Zoom\RouletteStart;
 use UKMNorge\Slack\API\Response\Plugin\FileManager;
 use UKMNorge\Slack\Block\Composition\Markdown;
 use UKMNorge\Slack\Block\Composition\PlainText;
 use UKMNorge\Slack\Block\Divider;
 use UKMNorge\Slack\Block\Section;
-use UKMNorge\Slack\Cache\Channel\Channels;
-use UKMNorge\Slack\Cache\User\Users;
 use UKMNorge\Slack\Payload\Message;
 
+require_once('../../Plugins/Zoom/RouletteStart.php');
+// require_once('UKMNorge/Slack/Plugins/Zoom/RouletteStart.php');
 require_once('../../env.inc.php');
 $filemanager = new FileManager( dirname(dirname(__DIR__)).'/Plugins/');
 
 App::getBotTokenFromTeamId(SLACK_UKMNORGE_TEAM_ID);
 
 // Kanalen vi skal sende til
-$channel = Channels::getByName(SLACK_UKMNORGE_TEAM_ID, '#test');
 
-function addUser($newUser) {
-    array_push($users,$newUser);
-}
+// new RouletteStart();
+$start = new RouletteStart();
+$start->sendListToChannel($transport);
+$transport = $start->$transport;
+echo $transport->$channel;
 
 // Handlebars for oss på kontoret
-function getUserList(){
-    $userList = [
-        '@mariusmandal',
-        '@jardar',
-        '@stine',
-        '@tom.andreas.kristense',
-        '@torstein',
-        '@kimd9740',
-        '@kushtrimaliu',
-        '@camilla.tangen'
-    ];
-
+function getUserList($userList){
     return $userList;
 }
 
-$users = getUserList();
+$users = getUserList($userList);
 
 function getRandomNumber($users){return rand(0, count($users)-1);}
 
@@ -121,4 +112,4 @@ $message->getBlocks()->add(
 );
 
 // Send meldingen
-$result = App::botPost('chat.postMessage', (array) $message->export());
+// $result = App::botPost('chat.postMessage', (array) $message->export());

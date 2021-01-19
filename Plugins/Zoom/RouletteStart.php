@@ -11,6 +11,10 @@ use UKMNorge\Slack\Block\Composition\Markdown;
 use UKMNorge\Slack\Block\Section;
 use UKMNorge\Slack\Cache\Channel\Channels;
 use UKMNorge\Slack\Payload\Modal;
+use UKMNorge\Slack\Block\Divider;
+use UKMNorge\Slack\Payload\Message;
+
+use UKMNorge\Slack\App\UKMApp as App;
 
 /**
  * Konverter data fra SuggestModal til en Some-idé
@@ -105,8 +109,90 @@ class RouletteStart extends ViewSubmission {
         $user_ids = $submitdata['zoom_roulette_users'];
         
         $kanal = Channels::getBySlackId($team_id, $kanal_id);
-        // SEND TO CHANNEL
 
-        return $transport;
+        App::getBotTokenFromTeamId($team_id);
+
+        $randomList = shuffleList($user_ids);
+        $finalPairs = generatePairs($randomList);
+        $rouletteListe = printList($finalPairs);
+
+        $header = 'Klar for ny runde med zoom-roulette? 👫: \n\n *Her er gruppene:*';
+
+        // Opprett meldingsobjektet
+        // Teksten du legger til først, er teksten som vises i notifications 
+        // (og må derfor alltid være PlainText-objekt)
+        $message = new Message(
+            $kanal->getSlackId(),
+            new PlainText($header)
+        );
+
+        $message->getBlocks()->add(
+            new Section(
+                new Markdown(
+                    $header
+                )
+            )
+        );
+
+        $message->getBlocks()->add(
+            new Divider()
+        );
+
+        $message->getBlocks()->add(
+            new Section(
+                new Markdown(
+                    $rouletteListe
+                )
+            )
+        );
+
+        $message->getBlocks()->add(
+            new Divider()
+        );
+
+        // Send meldingen
+        // $result = App::botPost('chat.postMessage', (array) $message->export());
+            
+        return App::botPost('chat.postMessage', (array) $message->export());
+    
+    }
+
+    function getRandomNumber($users){return rand(0, count($users)-1);}
+
+    function shuffleList($users){
+        $randomUserList = [];
+        
+        while(count($users) > 0) {
+            $randomNumber = getRandomNumber($users);
+            $randomizeArray = array_splice($users,$randomNumber,1);
+            $randomUser = $randomizeArray[0];
+            array_push($randomUserList,$randomUser);
+        }
+
+        return $randomUserList;
+    }
+
+    function generatePairs($users){
+        $pairs = [];
+
+        while(count($users) > 0) {
+            $randomPair = (count($users) % 2 != 0) ? array_splice($users,0,3) : array_splice($users,0,2);
+            array_push($pairs,$randomPair);
+        }
+
+        return $pairs;
+    }
+
+    function printList($finalPairs) {
+        $rouletteListe = '';
+        $keys = array_keys($finalPairs);
+        for($i = 0; $i < count($finalPairs); $i++) {
+            $rouletteListe .= '• ';
+            foreach( $finalPairs[$keys[$i]] as $user ) {
+                $rouletteListe .= "<@" . $user . '> ';
+            }
+            $rouletteListe .= '\n';
+        }
+        return $rouletteListe;
     }
 }
