@@ -83,7 +83,7 @@ class RouletteStart extends ViewSubmission {
         // Introduksjon
         $blocks[] = new Section( 
             new Markdown(
-                'Listen over gruppene er sendt i kanalen: '. $kanal .''
+                'Listen over gruppene er sendt i kanalen: '. $kanal .' \n\n Deltakerne er varslet i kanalen 📢'
             )
         );
 

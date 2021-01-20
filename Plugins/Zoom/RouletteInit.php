@@ -44,45 +44,45 @@ class RouletteInit extends Trigger
     public function getTemplate(TransportInterface $transport)
     {
         // VIEW
-        $view = new Modal(new PlainText('Zoom-roulette'));
+        $view = new Modal(new PlainText('Start en Zoom-roulette'));
         $view
             ->setSubmit(new PlainText('Start'))
             ->setClose(new PlainText('Avbryt'))
             ->setCallbackId('zoom_roulette_start');
 
-        // Introduksjon
-        $intro = new Section(
-            new Markdown(
-                '*Legg til deltakere og kanal for å starte en zoom-roulette*'
-            )
-        );
+        // // Introduksjon
+        // $intro = new Section(
+        //     new Markdown(
+        //         '*Legg til deltakere og kanal for å starte en zoom-roulette*'
+        //     )
+        // );
 
         // Velg mennesker
         $mennesker = new Section(
-            new PlainText('Deltakere:')
+            new PlainText('*Deltakere*')
         );
         $mennesker->setAccessory(
             new MultiSelectUsers(
                 'zoom_roulette_users',
-                new PlainText('Hvem skal være med?')
+                new PlainText('Velg hvem som skal være med...')
             )
         );
 
         // Velg kanal
         $kanal = new Section(
-            new PlainText('Kanal:')
+            new PlainText('*Kanal*')
         );
         $kanal->setAccessory(
             new SelectConversations(
                 'zoom_roulette_channel',
-                new PlainText('Hvor skal lista sendes til?')
+                new PlainText('Velg kanal...')
             )
         );
 
         // Legg til alle blocks
         $view->getBlocks()->set(
             [
-                $intro,
+                // $intro,
                 $mennesker,
                 $kanal
             ]
