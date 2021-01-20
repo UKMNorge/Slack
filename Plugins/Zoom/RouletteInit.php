@@ -67,8 +67,7 @@ class RouletteInit extends Trigger
         $kanal->setAccessory(
             new SelectConversations(
                 'zoom_roulette_channel',
-                new PlainText('Hvor skal lista sendes til...'),
-                new PlainText('Deltakere i kanalen vil få varsel 📢')
+                new PlainText('Hvor skal lista sendes til...')
             )
         );
 
