@@ -58,6 +58,7 @@ class RouletteStart extends ViewSubmission {
         return $transport;
     }
 
+
     /**
      * Hent tilbakemeldingstemplate
      *
@@ -85,7 +86,14 @@ class RouletteStart extends ViewSubmission {
                 'Listen over gruppene er sendt i kanalen: '. $kanal .''
             )
         );
-        
+
+        // // Debug brukere
+        // $blocks[] = new Section(
+        //     new Markdown(
+        //         var_export($users, true)
+        //     )
+        // );
+
         // Legg til alle blocks
         $view->getBlocks()->set($blocks);
 
