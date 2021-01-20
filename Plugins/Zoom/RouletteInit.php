@@ -50,16 +50,9 @@ class RouletteInit extends Trigger
             ->setClose(new PlainText('Avbryt'))
             ->setCallbackId('zoom_roulette_start');
 
-        // // Introduksjon
-        // $intro = new Section(
-        //     new Markdown(
-        //         '*Legg til deltakere og kanal for å starte en zoom-roulette*'
-        //     )
-        // );
-
         // Velg mennesker
         $mennesker = new Section(
-            new PlainText('*Deltakere*')
+            new PlainText('Deltakere')
         );
         $mennesker->setAccessory(
             new MultiSelectUsers(
@@ -70,7 +63,7 @@ class RouletteInit extends Trigger
 
         // Velg kanal
         $kanal = new Section(
-            new PlainText('*Kanal*')
+            new PlainText('Kanal')
         );
         $kanal->setAccessory(
             new SelectConversations(
@@ -82,7 +75,6 @@ class RouletteInit extends Trigger
         // Legg til alle blocks
         $view->getBlocks()->set(
             [
-                // $intro,
                 $mennesker,
                 $kanal
             ]

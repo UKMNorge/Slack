@@ -83,16 +83,9 @@ class RouletteStart extends ViewSubmission {
         // Introduksjon
         $blocks[] = new Section( 
             new Markdown(
-                'Listen over gruppene er sendt i kanalen: '. $kanal .' \n\n Deltakerne er varslet i kanalen 📢'
+                'Deltakerne er varslet i kanalen '. $kanal .' 📢'
             )
         );
-
-        // // Debug brukere
-        // $blocks[] = new Section(
-        //     new Markdown(
-        //         var_export($users, true)
-        //     )
-        // );
 
         // Legg til alle blocks
         $view->getBlocks()->set($blocks);
