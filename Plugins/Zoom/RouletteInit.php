@@ -7,7 +7,6 @@ use UKMNorge\Slack\API\Response\Plugin\Filter\Trigger;
 use UKMNorge\Slack\API\Response\Plugin\Transport\TransportInterface;
 use UKMNorge\Slack\API\View;
 use UKMNorge\Slack\Block\Composition\PlainText;
-use UKMNorge\Slack\Block\Composition\Markdown;
 use UKMNorge\Slack\Block\Element\MultiSelectUsers;
 use UKMNorge\Slack\Block\Element\SelectConversations;
 use UKMNorge\Slack\Block\Section;
@@ -44,45 +43,38 @@ class RouletteInit extends Trigger
     public function getTemplate(TransportInterface $transport)
     {
         // VIEW
-        $view = new Modal(new PlainText('Zoom-roulette'));
+        $view = new Modal(new PlainText('👫 Start en zoom-roulette'));
         $view
             ->setSubmit(new PlainText('Start'))
             ->setClose(new PlainText('Avbryt'))
             ->setCallbackId('zoom_roulette_start');
 
-        // Introduksjon
-        $intro = new Section(
-            new Markdown(
-                '*Legg til deltakere og kanal for å starte en zoom-roulette*'
-            )
-        );
-
         // Velg mennesker
         $mennesker = new Section(
-            new PlainText('Deltakere:')
+            new PlainText('*Deltakere*')
         );
         $mennesker->setAccessory(
             new MultiSelectUsers(
                 'zoom_roulette_users',
-                new PlainText('Hvem skal være med?')
+                new PlainText('Velg hvem som skal være med...')
             )
         );
 
         // Velg kanal
         $kanal = new Section(
-            new PlainText('Kanal:')
+            new PlainText('*Kanal*')
         );
         $kanal->setAccessory(
             new SelectConversations(
                 'zoom_roulette_channel',
-                new PlainText('Hvor skal lista sendes til?')
+                new PlainText('Hvor skal lista sendes til...'),
+                new PlainText('Deltakere i kanalen vil få varsel 📢')
             )
         );
 
         // Legg til alle blocks
         $view->getBlocks()->set(
             [
-                $intro,
                 $mennesker,
                 $kanal
             ]
