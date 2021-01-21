@@ -52,7 +52,7 @@ class RouletteInit extends Trigger
 
         // Velg mennesker
         $mennesker = new Section(
-            new PlainText('Deltakere')
+            new PlainText('Deltakere:')
         );
         $mennesker->setAccessory(
             new MultiSelectUsers(
@@ -63,7 +63,7 @@ class RouletteInit extends Trigger
 
         // Velg kanal
         $kanal = new Section(
-            new PlainText('Kanal')
+            new PlainText('Kanal:')
         );
         $kanal->setAccessory(
             new SelectConversations(
