@@ -2,6 +2,7 @@
 
 namespace SlackPlugin\Okonomi;
 
+use Exception;
 use UKMNorge\Database\SQL\Insert;
 use UKMNorge\Database\SQL\Query;
 use UKMNorge\Slack\API\Chat;
@@ -231,7 +232,13 @@ class MastercardLevert extends BlockAction
         $query = new Insert('ukmnorge_okonomi_mastercard');
         $query->add('periode', $periode);
         $query->add('user_id', $transport->getUserId());
-        $res = $query->run();
+        try {
+            $res = $query->run();
+        } catch ( Exception $e ) {
+            if( $e->getCode() == 901001 ) {
+                error_log($query->debug());
+            }
+        }
 
         $count = new Query(
             "SELECT COUNT(`id`)
